@@ -1,0 +1,22 @@
+# Arquivos gerados pelo npm
+node_modules/
+package-lock.json
+
+# Arquivos gerados pelo Sequelize
+/config/config.json
+/config/config.js
+/models/index.js
+
+# Arquivos de log
+logs/
+*.log
+
+# Arquivos de ambiente
+.env
+
+# Arquivos de sistema
+.DS_Store
+
+# Diretório de build do Docker
+/backend/node_modules/
+/frontend/node_modules/
