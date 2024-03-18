@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class ProdutoVenda extends Model {
     /**
@@ -10,17 +8,29 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      ProdutoVenda.belongsTo(models.Venda, {
+        foreignKey: 'venda_id',
+        as: 'venda'
+      });
+      ProdutoVenda.belongsTo(models.Produto, {
+        foreignKey: 'produto_id',
+        as: 'produto'
+      });
     }
   }
   ProdutoVenda.init({
-    vendaId: DataTypes.INTEGER,
-    produtoId: DataTypes.INTEGER,
+    venda_id: DataTypes.INTEGER,
+    produto_id: DataTypes.INTEGER,
     quantidade: DataTypes.INTEGER,
     preco: DataTypes.FLOAT
   }, {
     sequelize,
     modelName: 'ProdutoVenda',
+    tableName: 'produto_venda',
+    underscored: true,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   });
   return ProdutoVenda;
 };
