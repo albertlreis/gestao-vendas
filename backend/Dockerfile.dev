@@ -10,4 +10,7 @@ COPY . .
 
 CMD ["npm", "start"]
 
-CMD ["npx", "sequelize-cli", "db:migrate", "--env", "development", "--debug"]
+# Adicione essas linhas no final do seu Dockerfile
+COPY entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
