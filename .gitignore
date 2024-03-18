@@ -20,3 +20,9 @@ logs/
 # Diretório de build do Docker
 /backend/node_modules/
 /frontend/node_modules/
+
+# Arquivos específicos do MySQL
+data/mysql/
+
+# Arquivos específicos do ambiente de desenvolvimento do IntelliJ IDEA
+.idea/
