@@ -19,9 +19,9 @@ const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_US
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Conectado ao banco "+process.env.MYSQL_DATABASE)
+    console.log("Conectado ao banco de dados")
   }).catch((error) => {
-  console.log("Erro ao conectar com "+process.env.MYSQL_DATABASE, error)
+  console.log("Erro ao conectar com banco de dados", error)
 })
 
 // Ler os modelos do diretório atual
