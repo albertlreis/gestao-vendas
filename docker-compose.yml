@@ -1,19 +1,43 @@
 version: '3.8'
 
 services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3367:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      main:
+        aliases:
+          - mysql
+
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile.dev
     ports:
       - "3001:3001"
     volumes:
       - ./backend:/app
     environment:
       - NODE_ENV=development
-      - MYSQL_HOST=db
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=gestao_vendas
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    depends_on:
+      - mysql
+    networks:
+      main:
+        aliases:
+          - backend
 
   frontend:
     build:
@@ -25,16 +49,12 @@ services:
       - ./frontend:/app
     environment:
       - REACT_APP_API_URL=http://localhost:3001
-
-  db:
-    image: mysql:latest
-    restart: always
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: gestao_vendas
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
-    volumes:
-      - ./data/mysql:/var/lib/mysql
+    depends_on:
+      - backend
+    networks:
+      main:
+        aliases:
+          - frontend
+networks:
+  main:
+    name: 'vendas_main'
